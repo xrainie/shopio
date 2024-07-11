@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from cart.forms import CartAddProductForm
+from django.core.cache import cache
 
 
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
+    products = cache.get('all_products')
+    if not products:
+        products = Product.objects.filter(available=True)
+        cache.set('all_products', products)
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
