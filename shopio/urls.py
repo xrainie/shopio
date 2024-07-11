@@ -27,6 +27,7 @@ urlpatterns = [
     path('coupons/', include('coupons.urls', namespace='coupons')),
     path('', include('shop.urls', namespace='shop')),
     path('api/', include('shop.api.urls', namespace='api')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 if settings.DEBUG:
